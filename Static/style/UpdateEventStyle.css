@@ -1,0 +1,94 @@
+body{
+    overflow-x:auto;
+    font-family: 'Poppins';
+    padding-top: 70px;
+}
+.navbar{
+    padding: 18px 14px;
+    font-size: 19px;
+    background-color: #f8f9fa;
+}
+.navbar .brand-text{
+    font-weight:bold;
+    font-size: 24px;
+}
+.navbar .nav-link{
+    font-weight:bold;
+    margin-right: 40px;
+    color:black;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #005477; 
+}
+.search-form {
+    width: 50%;
+    position: relative;
+    left: 15%;  
+}
+.search-bar{
+    padding-left: 10px;
+    border-radius: 0.25px;
+    width: 170px;
+    transition: 0.5s ease;
+    border-color: #005477;
+    font-weight: bold;
+    font-size: medium;
+    font-weight: bold;
+}
+.search-bar:focus {
+    width: 300px;
+    border-color: #005477;
+}
+.eventCreate {
+    margin-top: 30px;
+}
+.event-btn{
+    background-color: white; 
+    color: #005477; 
+    border-color: #005477; 
+    padding: 12px 24px; 
+    font-size: 20px; 
+    font-weight: bold; 
+    margin-bottom: 20px;
+    transition: all 0.3s ease; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+.event-btn:hover {
+    background-color: #005477; 
+    color: white; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+    transform: scale(1.05); 
+}
+.footer {
+    background-color: #005477;
+    padding: 30px;
+    position: relative;
+    width: 100%;
+    text-align: center; 
+}
+
+.footer-links {
+    text-decoration: none;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.footer-links a {
+    text-decoration: none; 
+    color: #ffffff; 
+}
+
+.footer-links a:hover {
+    color: #18a1f0; 
+    text-decoration: none; 
+}
+
+.footer-links li {
+    display: inline;
+    margin-right: 15px;
+}

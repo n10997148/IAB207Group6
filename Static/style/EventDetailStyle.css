@@ -1,0 +1,191 @@
+body{
+    overflow-x:auto;
+    font-family: 'Poppins';
+    padding-top: 70px;
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    padding: 18px 14px;
+    font-size: 19px;
+    background-color: #f8f9fa;
+}
+.navbar .brand-text{
+    font-weight:bold;
+    font-size: 24px;
+}
+.navbar .nav-link{
+    font-weight:bold;
+    margin-right: 40px;
+    color:black;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #005477; 
+}
+.search-form {
+    width: 50%;
+    position: relative;
+    left: 15%;  
+}
+.search-bar{
+    padding-left: 10px;
+    border-radius: 0.25px;
+    width: 170px;
+    transition: 0.5s ease;
+    border-color: #005477;
+    font-weight: bold;
+    font-size: medium;
+    font-weight: bold;
+}
+.search-bar:focus {
+    width: 300px;
+    border-color: #005477;
+}
+.event-details-section {
+    background-color: #005477;
+    padding: 80px 50px;
+}
+
+.event-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffffff;;
+}
+
+.event-description {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+.event-details {
+    font-size: 16px;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+.event-status {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.booking-form h3 {
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.booking-form .ticket-label{
+    color: #ffffff;
+}
+
+.booking-form .form-control, 
+.booking-form .form-select {
+    margin-bottom: 20px;
+}
+
+.comments-section {
+    background-color: #fff;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.comments-section h2, 
+.comments-section h3 {
+    color: #005477;
+}
+
+.comment-list .comment {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.modal-body .ticket-label{
+    color: black;
+}
+
+.comment p {
+    margin: 0;
+}
+
+.comment-form .form-control {
+    margin-bottom: 15px;
+    border-color: #005477;
+}
+
+.status-open {
+    background-color: #1db43e;
+    color: white;
+}
+.btn-primary{
+    color: #005477;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.btn-primary:hover{
+    background-color:#005477;
+    border-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-book{
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.btn-book:hover{
+    background-color:#0a4eb3;
+    border-color: #0a4eb3;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-book:active{
+    background-color: #0a4eb3;
+    border-color: #0a4eb3;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); 
+}
+.footer {
+    background-color: #005477;
+    padding: 50px;
+    position: relative;
+    width: 100%;
+    text-align: center; 
+}
+
+.footer-links {
+    text-decoration: none;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.footer-links a {
+    text-decoration: none; 
+    color: #ffffff; 
+}
+
+.footer-links a:hover {
+    color: #18a1f0; 
+    text-decoration: none; 
+}
+
+.footer-links li {
+    display: inline;
+    margin-right: 15px;
+}
