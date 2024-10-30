@@ -1,7 +1,7 @@
 from . import db
 from datetime import datetime
 from flask_login import UserMixin
-
+from sqlalchemy import enum
 # User Class
 class User(db.Model, UserMixin):
    __tablename__ = 'users'
