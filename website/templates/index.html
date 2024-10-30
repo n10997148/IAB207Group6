@@ -30,7 +30,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
                     </li>
-                    <li class="nav-item">
+              
                         <a class="nav-link" href="Bookings.html">My Bookings</a>
                     </li>
                 </ul>
@@ -40,8 +40,11 @@
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item dropdown">
                     <div class="d-flex">
-                        <a href="user.html" class="btn btn-outline-black me-2">Login</a>
-                        <a href="register.html" class="btn btn-outline-black">Register</a>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
+                      <li class="nav-item">
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
                     </div>
                       </ul>
                   </li>
