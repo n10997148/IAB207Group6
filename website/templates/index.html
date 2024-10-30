@@ -25,15 +25,14 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="EventDetails.html">Find Events</a>
+                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="UpdateEvents.html">Create Events</a>
+                        <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Bookings.html">My Bookings</a>
                     </li>
-                    
                 </ul>
                 <form class="d-flex mx-auto p-2">
                     <input class="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search">
