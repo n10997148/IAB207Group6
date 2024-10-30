@@ -9,6 +9,10 @@ main_bp = Blueprint('main', __name__, template_folder='templates', static_folder
 def index(): 
     return render_template('index.html')
 
+@main_bp.route('/view_event', methods=['GET'])
+def view_event():
+    return render_template('EventDetails.html')
+
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required
 def create_event():
