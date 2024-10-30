@@ -14,7 +14,7 @@ def register():
     if (register.validate_on_submit()==True):
 
         first_name = register.first_name.data
-        surname = register.surname.data
+        last_name = register.last_name.data
         email = register.email.data
         contact_number = register.contact_number.data
         street_address = register.street_address.data
@@ -22,7 +22,7 @@ def register():
 
         password = generate_password_hash(pwd)
 
-        new_user = User(first_name=first_name, surname=surname, email=email, password=password, contact_number=contact_number, street_address=street_address)
+        new_user = User(first_name=first_name, last_name=last_name, email=email, password=password, contact_number=contact_number, street_address=street_address)
         db.session.add(new_user)
         db.session.commit()
 
