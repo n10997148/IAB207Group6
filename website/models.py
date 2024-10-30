@@ -2,16 +2,24 @@ from . import db
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import Enum
+from werkzeug.security import generate_password_hash, check_password_hash
 # User Class
 class User(db.Model, UserMixin):
-   __tablename__ = 'users'
-   id = db.Column(db.Integer, primary_key=True)
-   name = db.Column(db.String(100),index=True,unique=True,nullable=False)
-   emailid = db.Column(db.String(100), index=True, nullable=False)
-   password_hash = db.Column(db.String(255),nullable=False)
-   street_address = db.Column(db.String(100), index=True, nullable=False)
-   comments = db.relationship('Comment',backref='user')
-   events = db.relationship('Event',secondary='comments',backref=db.backref('users'))
+  __tablename__ = 'users'
+  id = db.Column(db.Integer, primary_key=True)
+  username = db.Column(db.String(100), unique=True, nullable=False)
+  name = db.Column(db.String(100),index=True,unique=True,nullable=False)
+  emailid = db.Column(db.String(100), index=True, nullable=False)
+  password_hash = db.Column(db.String(255),nullable=False)
+  street_address = db.Column(db.String(100), index=True, nullable=False)
+  comments = db.relationship('Comment',backref='user')
+  events = db.relationship('Event',secondary='comments',backref=db.backref('users'))
+   
+  def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
+    
+  def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
 
 # Event Class
 class Event(db.Model):

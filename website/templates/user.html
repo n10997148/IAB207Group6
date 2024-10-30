@@ -18,18 +18,11 @@
         {{ render_form(form) }}
     </div>
 
-<<<<<<< HEAD
     <!-- Link to register if not a user -->
     {% if heading == 'Login' %}
     <div class="register-link">
         <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
     </div>
     {% endif %}
-=======
-<!-- When you have Login form, then show the user a link to register -->
-{% if heading == 'Login' %}
-<div class="col-md-4">
-    <p>New user? <a href="{{url_for('auth.register')}}">Click here</a> to register.</p>
->>>>>>> 2fd4401ec8bdf12a298048cd4e27f81a56e127aa
 </div>
 {% endblock %}
