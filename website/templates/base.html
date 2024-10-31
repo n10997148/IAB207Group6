@@ -13,6 +13,7 @@
     <header>
 
         <!-- Navbar -->
+        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">Polar Music Events</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,16 +25,12 @@
                         <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.bookings') }}">My Bookings</a>
                     </li>
                 </ul>
-
                 <ul class="navbar-nav ms-auto">
                     {% if request.endpoint == 'main.index' and current_user.is_authenticated %}
                         <!-- Display username and logout link only on the homepage -->
