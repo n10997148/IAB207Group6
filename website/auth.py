@@ -27,7 +27,7 @@ def register():
             # don't store the password in plaintext!
         pwd_hash = generate_password_hash(pwd)
             #create a new User model object
-        new_user = User(username=username, password_hash=pwd_hash, emailid=email,surname= last_name, first_name= first_name, contactnum= contact_number, street_address= street_address)
+        new_user = User(username=username, password_hash=pwd_hash, email=email,last_name= last_name, first_name= first_name, contact_number= contact_number, street_address= street_address)
         db.session.add(new_user)
         db.session.commit()
             #commit to the database and redirect to HTML page
@@ -44,11 +44,11 @@ def login():
     error = None
     if login_form.validate_on_submit():
         user_name = login_form.user_name.data
-        pwd = login_form.pwd.data
+        pwd = login_form.password_hash.data
         user = db.session.scalar(db.select(User).where(User.username==user_name))
         if user is None:
-            error = 'Incorrect email'
-        elif not check_password_hash(user.password, pwd): # takes the hash and cleartext password
+            error = 'Incorrect user'
+        elif not check_password_hash(user.password_hash, pwd): # takes the hash and cleartext password
             error = 'Incorrect password'
         if error is None:
             login_user(user)
