@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for,flash,current_app
 from flask_login import login_required, current_user
 from .models import Event,Order, db
-from .forms import CreateComment
+from .forms import CreateComment,UpdateEvents
+from werkzeug.utils import secure_filename
+import os
 from datetime import timedelta
 
 main_bp = Blueprint('main', __name__, template_folder='templates', static_folder='Static')
@@ -37,22 +39,40 @@ def comment():
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required
 def create_event():
-    if request.method == 'POST':
-        title = request.form.get('eventName')
-        description = request.form.get('eventDescription')
-        date = request.form.get('eventDate')
+    form = UpdateEvents()
+    
+    if form.validate_on_submit():  # If the form is submitted and valid
+        # Grab the creator_id from the currently logged-in user
+        creator_id = current_user.id  # get the user id from the session
 
-     
+        image=form.event_image.data # save the image to the server 
+        print(type(image))
+        filename=secure_filename(image.filename)
+        image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
-
-        # Create new event
-        new_event = Event(title=title, description=description, date=date, status='Open')
+        
+        # Create the new event instance
+        new_event = Event(
+            name=form.event_name.data,
+            datetime=form.event_datetime.data,
+            venue=form.event_venue.data,
+            ticket_price=form.event_ticket_price.data,
+            genre=form.event_genre.data,
+            status="OPEN",
+            image=filename,
+            creator_id=creator_id
+        )
+        
+        # Add the event to the database
         db.session.add(new_event)
         db.session.commit()
-
-        return redirect(url_for('INDEX'))
+        
+        flash('Event created successfully!')
+        return redirect(url_for('main.index'))  # Redirect to a suitable page, like the homepage or event list
     
-    return render_template('UpdateEvents.html')
+    return render_template('UpdateEvents.html', form=form)  # Render the form template
+
+
 
 @main_bp.route('/order', methods=['GET', 'POST'])
 def order():

@@ -24,7 +24,7 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
+                        <a class="nav-link" href="#">Find Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
@@ -32,20 +32,21 @@
               
                         <a class="nav-link" href="Bookings.html">My Bookings</a>
                     </li>
+                    
                 </ul>
                 <form class="d-flex mx-auto p-2" action="{{url_for('main.search')}}">
                     <input class="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                <ul class="navbar-nav ml-auto">
-                  <li class="nav-item dropdown">
-                    <div class="d-flex">
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-                      <li class="nav-item">
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                 {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                 {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
                     </div>
-                      </ul>
                       </ul>
                   </li>
               </ul>

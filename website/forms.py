@@ -7,28 +7,17 @@ from wtforms.fields import (
     IntegerField,
     TimeField,
     DateField,
+    DateTimeLocalField,
+    SelectField,
     DateTimeField,
 )
-from wtforms.validators import InputRequired, Length, Email, EqualTo
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
 ALLOWED_FILE = {'png', 'jpg', 'JPG', 'PNG', 'bmp'}
 
-class UpdateEvents(FlaskForm):
-    """
-        A form for creating events
-    """
-    Description = StringField("User Name", validators=[InputRequired()])
-    
-    Image = FileField(
-        'Event Image',
-        validators=[
-            FileRequired(message='Please select a file name'),
-            FileAllowed(ALLOWED_FILE, message='support only png, jpg, bmp')
-            ]
-        )
-
+class UpdateEvents(FlaskForm): # This form is for creating events
     Start_time = TimeField("Start Time", validators=[InputRequired()])
     date = DateField("Event Date", validators=[InputRequired()])
     Venue = StringField("Venue", validators=[InputRequired()])
@@ -36,6 +25,8 @@ class UpdateEvents(FlaskForm):
     Tickets_avaliable = IntegerField("Tickets avaliable", validators=[InputRequired()])
     status = StringField("User Name", validators=[InputRequired()])
     
+    event_image=FileField("Image", validators=[DataRequired(), FileAllowed(['jpg'], '.jpg only!')])
+    create_event=SubmitField("Create Event")
     
 class CreateUser(FlaskForm):
     """
