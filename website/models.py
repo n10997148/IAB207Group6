@@ -59,8 +59,8 @@ class Order(db.Model):
   quantity = db.Column(db.Integer, nullable = False)
   price = db.Column(db.Float, nullable=False)
   date = db.Column(db.Date, nullable=False)
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable = False)
-  event_id = db.Column(db.Integer,db.ForeignKey('event.id'),nullable = False)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable = False)
+  event_id = db.Column(db.Integer,db.ForeignKey('events.id'),nullable = False)
 
 def __repr__(self):
   return f"comment: {self.text}"
