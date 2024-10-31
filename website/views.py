@@ -31,7 +31,8 @@ def view_event(current_event_id):
     return render_template('EventDetails.html', event=current_event, form=cForm)
 
 @main_bp.route('/view_event/<current_event_id>/comment', methods=['GET', 'POST'])
-def comment():
+def comment(current_event_id):
+    # Implement comment functionality here
     pass
 
 @main_bp.route('/create_event', methods=['GET', 'POST'])
@@ -74,10 +75,10 @@ def order():
 
     return render_template('Bookings.html', events=events)
 
-@main_bp.route('/bookings', methods=['GET'])
+@main_bp.route('/bookings')
 @login_required
 def bookings():
-    user_bookings = Order.query.filter_by(user_id=current_user.id).all()  # Retrieve bookings for the current user
-    return render_template('Bookings.html', bookings=user_bookings)
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    return render_template('Bookings.html', orders=orders)
 
 print("main_bp is defined in views.py")
