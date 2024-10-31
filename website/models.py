@@ -69,6 +69,13 @@ class Order(db.Model):
     # Foreign Keys to link to Event and User
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+  __tablename__ ='orders'
+  id = db.Column(db.Integer, primary_key= True)
+  quantity = db.Column(db.Integer, nullable = False)
+  price = db.Column(db.Float, nullable=False)
+  date = db.Column(db.Date, nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable = False)
+  event_id = db.Column(db.Integer,db.ForeignKey('events.id'),nullable = False)
 
 # __repr__ Method for Comment (for Debugging Purposes)
 def __repr__(self):
