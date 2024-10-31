@@ -31,7 +31,8 @@ def register():
         db.session.add(new_user)
         db.session.commit()
             #commit to the database and redirect to HTML page
-        return redirect(url_for('main.index'))
+        flash('Registration successful! Please log in.')
+        return redirect(url_for('auth.login'))
     #the else is called when the HTTP request calling this page is a GET
     else:
         return render_template('user.html', form=register, heading='Register')
@@ -52,6 +53,7 @@ def login():
             error = 'Incorrect password'
         if error is None:
             login_user(user)
+            flash('Login successful!')
             return redirect(url_for('main.index'))
         else:
             flash(error)
