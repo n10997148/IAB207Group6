@@ -21,16 +21,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="{{ url_for('main.index')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Find Events</a>
+                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
                     </li>
-              
-                        <a class="nav-link" href="Bookings.html">My Bookings</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.bookings') }}">My Bookings</a>
                     </li>
                 </ul>
                 <form class="d-flex mx-auto p-2" action="{{url_for('main.search')}}">
