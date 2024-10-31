@@ -12,21 +12,27 @@ def register():
     register = RegisterForm()
     #the validation of form is fine, HTTP request is POST
     if (register.validate_on_submit()==True):
-
+        username=register.user_name.data
         first_name = register.first_name.data
         last_name = register.last_name.data
         email = register.email.data
         contact_number = register.contact_number.data
         street_address = register.street_address.data
         pwd = register.password.data
-
-        password = generate_password_hash(pwd)
-
-        new_user = User(first_name=first_name, last_name=last_name, email=email, password=password, contact_number=contact_number, street_address=street_address)
+        
+        user = db.session.scalar(db.select(User).where(User.username==username))
+        if user:#this returns true when user is not None
+            flash('Username already exists, please try another')
+            return redirect(url_for('auth.register'))
+            # don't store the password in plaintext!
+        pwd_hash = generate_password_hash(pwd)
+            #create a new User model object
+        new_user = User(username=username, password_hash=pwd_hash, emailid=email,surname= last_name, first_name= first_name, contactnum= contact_number, street_address= street_address)
         db.session.add(new_user)
         db.session.commit()
-
+            #commit to the database and redirect to HTML page
         return redirect(url_for('main.index'))
+    #the else is called when the HTTP request calling this page is a GET
     else:
         return render_template('user.html', form=register, heading='Register')
 
@@ -37,9 +43,9 @@ def login():
     login_form = LoginForm()
     error = None
     if login_form.validate_on_submit():
-        email = login_form.email.data
-        pwd = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.email==email))
+        user_name = login_form.user_name.data
+        pwd = login_form.pwd.data
+        user = db.session.scalar(db.select(User).where(User.username==user_name))
         if user is None:
             error = 'Incorrect email'
         elif not check_password_hash(user.password, pwd): # takes the hash and cleartext password
