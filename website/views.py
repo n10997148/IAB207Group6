@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Event,Order, db
+from .forms import CreateComment
+from datetime import timedelta
 
 main_bp = Blueprint('main', __name__, template_folder='templates', static_folder='Static')
 
@@ -21,9 +23,16 @@ def search():
         return redirect(url_for('main.index'))
 
 
-@main_bp.route('/view_event', methods=['GET'])
-def view_event():
-    return render_template('EventDetails.html')
+@main_bp.route('/view_event/<current_event_id>')
+def view_event(current_event_id):
+    current_event = db.session.scalar(db.select(Event).where(Event.id==current_event_id))
+    print(current_event_id, current_event.name)
+    cForm = CreateComment()
+    return render_template('EventDetails.html', event=current_event, form=cForm)
+
+@main_bp.route('/view_event/<current_event_id>/comment', methods=['GET', 'POST'])
+def comment():
+    pass
 
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required
@@ -52,7 +61,7 @@ def order():
     if request.method == 'POST':
         event_id = request.form.get('selectEvent')
         quantity = request.form.get('ticketQuantity')
-        
+        price = request.form.get('price')
         
             
             # Create new booking

@@ -29,8 +29,8 @@ class Event(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
     location = db.Column(db.String(200), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-    time = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)
     price = db.Column(db.Float, nullable=False)
     image = db.Column(db.String(400))
     capacity = db.Column(db.Integer, nullable=False)
@@ -42,6 +42,7 @@ class Event(db.Model):
         default='open'
     )
     
+
     # Foreign Key to reference User who organizes the event
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
