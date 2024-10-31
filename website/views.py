@@ -64,4 +64,11 @@ def order():
         return redirect(url_for('index'))
 
     return render_template('Bookings.html', events=events)
+
+@main_bp.route('/bookings', methods=['GET'])
+@login_required
+def bookings():
+    user_bookings = Order.query.filter_by(user_id=current_user.id).all()  # Retrieve bookings for the current user
+    return render_template('Bookings.html', bookings=user_bookings)
+
 print("main_bp is defined in views.py")

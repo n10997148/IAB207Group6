@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, render_template, request, url_for, redirect
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from .models import User
 from .forms import LoginForm, RegisterForm
 from . import db
@@ -31,7 +31,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
             #commit to the database and redirect to HTML page
-        flash('Registration successful! Please log in.')
+        flash('You are now registered!')
         return redirect(url_for('auth.login'))
     #the else is called when the HTTP request calling this page is a GET
     else:
@@ -46,14 +46,14 @@ def login():
     if login_form.validate_on_submit():
         user_name = login_form.user_name.data
         pwd = login_form.password_hash.data
-        user = db.session.scalar(db.select(User).where(User.username==user_name))
+        user = db.session.scalar(db.select(User).where(User.username == user_name))
         if user is None:
             error = 'Incorrect user'
         elif not check_password_hash(user.password_hash, pwd): # takes the hash and cleartext password
             error = 'Incorrect password'
         if error is None:
             login_user(user)
-            flash('Login successful!')
+            flash(f'Welcome, {user.username}!')
             return redirect(url_for('main.index'))
         else:
             flash(error)
