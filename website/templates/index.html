@@ -25,7 +25,7 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
+                        <a class="nav-link" href="#">Find Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
@@ -98,7 +98,7 @@
                 <div class="card-body">
                   <h5 class="card-title">We Are One Festival 2024</h5>
                   <p class="card-text">Join one of the most awaited festivals of 2024</p>
-                  <a href="EventDetails.html" class="btn btn-event">View Event</a>
+                  <a href="{{ url_for('main.view_event' , current_event_id=1) }}" class="btn btn-event">View Event</a> <!--  -->
                   <span class="event-status status-open">Available</span>
                 </div>
               </div>
