@@ -15,7 +15,7 @@
                 </p>
                 <p class="event-details">
                     <strong>Date:</strong> {{ event.date }} <br>
-                    <strong>Time:</strong> {{ event.start_time }} - {{ event.end_time }} <br>
+                    <strong>Time:</strong> {{ event.start_time.time() }} - {{ event.end_time.time() }} <br>
                     <strong>Venue:</strong> {{ event.venue }}
                 </p>
                 <span class="event-status status-open">Available</span>
