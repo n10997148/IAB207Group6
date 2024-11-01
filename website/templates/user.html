@@ -14,19 +14,23 @@
     <p>Welcome to Polar Music Events</p>
 </div>
 
-<div class="login-container">
-    <h4 class="login-title">{{ heading }}</h4>
-    
-    <!-- Login form rendering -->
-    <div class="col-md-12">
-        {{ render_form(form) }}
-    </div>
+{% if heading == 'Register' %}
+    <div class="login-container" style="margin-top: 350px;">
+{% else %}
+    <div class="login-container">
+{% endif %}
+        <h4 class="login-title">{{ heading }}</h4>
 
-    <!-- Link to register if not a user -->
-    {% if heading == 'Login' %}
-    <div class="register-link">
-        <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
+        <!-- Login form rendering -->
+        <div class="col-md-12">
+            {{ render_form(form) }}
+        </div>
+
+        <!-- Link to register if not a user -->
+        {% if heading == 'Login' %}
+        <div class="register-link">
+            <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 {% endblock %}
