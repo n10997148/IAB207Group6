@@ -79,6 +79,7 @@ class Order(db.Model):
     # Foreign Keys to link to Event and User
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    image=db.Column(db.String(400))
 
 # __repr__ Method for Comment (for Debugging Purposes)
 def __repr__(self):

@@ -1,24 +1,25 @@
 {% extends "base.html" %}
-
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/Bookingstyle.css') }}">
+{% endblock %}
 {% block content %}
 <section class="booking-history container mt-5">
     <h1 class="text-center mb-4">Your Booking History</h1>
+    <img src="{{ url_for('static', filename='img/' ) }}" class="card-img-top">
     <div class="row">
-        {% if event %}
-            {% for event in event %}
+        {% if orders %}
+            {% for order in orders %}
                 <div class="col-md-4 mb-4 d-flex align-items-stretch">
-                    <div class="card mx-3">
-                        <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" alt="{{ event.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ event.name }}</h5>
-                            <p class="card-text">{{ event.description }}</p>
-                        </div>
-                        <a href="{{ url_for('main.show', id=event.id) }}" class="btn btn-primary">More details</a>
+                        <div class="col-md-8">
+                            <p><strong>Booking ID:</strong> {{ order.order_id }}</p>
+                            <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                            <p><strong>Total Price:</strong> ${{ order.price }}</p>
+            
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-            <p>No events available.</p>
+            <p>No bookings available.</p>
         {% endif %}
     </div>
 </div>

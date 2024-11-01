@@ -53,15 +53,7 @@
         <div class="col-12 text-center">
             <button type="submit" class="btn event-btn">Create Event</button>
         </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class="alert alert-danger mt-3">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+        
     </div>
     </form>
 </section>

@@ -144,14 +144,15 @@ def create_event():
 @login_required
 def order():
     form = OrderForm()
-
+    
     if form.validate_on_submit():
         user_id = current_user.id
         new_order = Order(
             total_tickets=form.ticket_total_tickets.data,
             type=form.ticket_type.data,
             user_id=current_user.id,
-            event_id=1 # set to one for testing purposes, please change once you link orders to events :)
+            event_id=form.event_id.data,
+            image=db.session.scalar(db.select(Event.image).where(Event.id == form.event_id.data))
         )
 
         db.session.add(new_order)
@@ -163,7 +164,13 @@ def order():
 @main_bp.route('/bookings')
 @login_required
 def bookings():
-    orders = Order.query.filter_by(user_id=current_user.id).all()
+    orders = Order.query.filter_by(user_id=current_user.id).join(Event, Order.event_id == Event.id).add_columns(
+    Order.id.label('order_id'),
+    Order.quantity,
+    Order.type,
+    Order.event_id,
+    Order.image,
+    )
     return render_template('Bookings.html', orders=orders)
 
 print("main_bp is defined in views.py")
