@@ -42,7 +42,7 @@ class CreateComment(FlaskForm):
         A form for creating a comment
     """
     comment = StringField("Comment", validators=[InputRequired()])
-    submit = SubmitField("Create")
+    submit = SubmitField("Post")
     
 # creates the login information
 class LoginForm(FlaskForm):

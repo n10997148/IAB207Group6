@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for,flash,current_app
 from flask_login import login_required, current_user
-from .models import Event,Order, db
+from .models import Event,Order, db, Comment
 from .forms import CreateComment,UpdateEvents
 from werkzeug.utils import secure_filename
 import os
@@ -32,9 +32,25 @@ def view_event(current_event_id):
     cForm = CreateComment()
     return render_template('EventDetails.html', event=current_event, form=cForm)
 
-@main_bp.route('/view_event/<current_event_id>/comment', methods=['GET', 'POST'])
-def comment():
-    pass
+@main_bp.route('/view_event/<event_id>/comment', methods=['GET', 'POST'])
+def comment(event_id):
+    form = CreateComment()  
+    # get the event object associated to the page and the comment
+    event = db.session.scalar(db.select(Event).where(Event.id==event_id))  
+    if form.validate_on_submit():
+      if current_user:
+        # read the comment from the form
+        comment = Comment(comment=form.comment.data, event=event, user=current_user) 
+        # here the back-referencing works - comment.event is set
+        # and the link is created
+        db.session.add(comment) 
+        db.session.commit() 
+
+        # flashing a message which needs to be handled by the html
+        # flash('Your comment has been added', 'success')  
+        print('Your comment has been added', 'success') 
+    # using redirect sends a GET request to view_event
+    return redirect(url_for('main.view_event', current_event_id = event_id))
 
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required

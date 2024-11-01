@@ -22,10 +22,6 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.index')}}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.view_event') }}">Find Events</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Events</a>
                     </li>
@@ -122,23 +118,23 @@
             </div>
         </div>
     </div>
+    {% from 'bootstrap5/form.html' import render_form %}
     <div class="comments-section container mt-4">
         <h2>Comments</h2>
-        <div class="comment-list">
-            <div class="comment mb-2">
-                <p><strong>Sam871:</strong> Can't wait for this event, it's going to be amazing!</p>
+        {% for comment in event.comments %}
+            <div class="comment-list">
+                <div class="comment mb-2">
+                    <p><strong>{{ comment.user.username }}:</strong> {{ comment.comment }}</p>
+                    <p><span class="small">Posted {{ comment.date_posted }}</span></p>
+                </div>
             </div>
-            <div class="comment mb-2">
-                <p><strong>JackyBoi :</strong> I attended last year's Rock Fest, and it was incredible! Already booked my tickets.</p>
-            </div>
-        </div>
+        {% endfor %}
         <h3>Post a Comment</h3>
-        <form class="comment-form">
-            <div class="mb-3">
-                <textarea class="form-control" placeholder="Enter Comment"id="commentText" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Comment</button>
-        </form>
+        {% if current_user.is_authenticated %}
+            {{ render_form(form,"/view_event/{0}/comment".format(event.id)) }}
+        {% else %}
+            <p>You must be logged in to leave a comment.</p>
+        {% endif %}
     </div>
     <footer class="footer">
         <div class="container">
