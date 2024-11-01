@@ -11,7 +11,7 @@ from wtforms.fields import (
     SelectField,
     DateTimeField,
 )
-from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange
 
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
@@ -65,8 +65,12 @@ class RegisterForm(FlaskForm):
     confirm = PasswordField("Confirm Password")
     contact_number=StringField("Contact Number", validators=[InputRequired()])
     street_address=StringField("Street Address", validators=[InputRequired()])
-
-    # submit button
     submit = SubmitField("Register")
+
+class OrderForm(FlaskForm):
+    total_tickets = IntegerField("Number of Tickets", validators=[InputRequired(), NumberRange(min=1, max=10)])
+    ticket_type = SelectField("Ticket Type", choices=[("NORMAL","General Admission"),("VIP","VIP")], validators=[InputRequired()])
+    place_order = SubmitField("Confirm Booking")
+
     
 

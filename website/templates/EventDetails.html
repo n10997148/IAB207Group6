@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ event.image }}" class="img-fluid" alt="Event Image">
+                <img src="{{ url_for('static', filename='img/' + event.image) }}"  class="img-fluid" alt="Event Image">
             </div>
 
             <div class="col-md-6">
@@ -42,19 +42,12 @@
                                     <div class="mb-3">
                                         <label for="ticketType" class="ticket-label">Ticket Type</label>
                                         <select class="form-select" id="ticketType" name="ticketType">
-                                            <option value="general">General Admission - ${{ event.ticket_price }}</option>
-                                            <option value="vip">VIP - ${{ event.ticket_price * 2 }}</option>
+                                            <option value="general">General Admission - ${{ form.ticket_type }}</option>
+                                            <option value="vip">VIP - ${{ form.ticket_type  }}</option>
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Your Name</label>
                                                 <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="email" class="form-label">Email Address</label>
-                                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="Mobile Number" class="form-label">Mobile Number</label>
-                                                <input type="number" class="form-control" id="number" placeholder="Enter your Phone Number" required>
+                                        
                                             </div>
                                         </select>
                                     </div>

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for,flash,current_app,abort
 from flask_login import login_required, current_user
 from .models import User,Event,Order, db, Comment
-from .forms import CreateComment,UpdateEvents
+from .forms import CreateComment,UpdateEvents,OrderForm
 from werkzeug.utils import secure_filename
 import os
 from datetime import timedelta,datetime
@@ -22,7 +22,7 @@ def search():
         query = "%" + request.args['search'] + "%"
         events = db.session.scalars(db.select(Event).where(db.or_(Event.name.ilike(query),
                     Event.description.ilike(query))))
-        return render_template('index.html', events=events)
+        return render_template('index.html', event=events)
     else:
         return redirect(url_for('main.index'))
 
@@ -32,11 +32,12 @@ def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id==id))
     # create the comment form
     form = CreateComment()
+    
 
     # If the database doesn't return a destination, show a 404 page
     if not event:
        abort(404)
-    return render_template('EventDetails.html', event=event, form=form)
+    return render_template('EventDetails.html', event=event, form=form,)
 @main_bp.route('/view_event/<current_event_id>')
 def view_event(current_event_id):
     current_event = db.session.scalar(db.select(Event).where(Event.id==current_event_id))
@@ -114,25 +115,25 @@ def create_event():
 
 
 
-@main_bp.route('/order', methods=['GET', 'POST'])
+@main_bp.route('/order', methods=['GET','POST'])
+@login_required
 def order():
-    events = Event.query.filter_by(status='Open').all()  
-    
-    if request.method == 'POST':
-        event_id = request.form.get('selectEvent')
-        quantity = request.form.get('ticketQuantity')
-        price = request.form.get('price')
-        
-            
-            # Create new booking
-        new_booking = order(quantity=quantity, price=price, user_id=current_user.id, event_id=event_id)
-        db.session.add(new_booking)
+    form = OrderForm()
+
+    if form.validate_on_submit():
+        user_id = current_user.id
+        new_order = Order(
+            total_tickets=form.ticket_total_tickets.data,
+            type=form.ticket_type.data,
+            user_id=current_user.id,
+            event_id=1 # set to one for testing purposes, please change once you link orders to events :)
+        )
+
+        db.session.add(new_order)
         db.session.commit()
+        flash("order placed", "success")
+    return render_template("EventDetails.html", form=form)
 
-
-        return redirect(url_for('index'))
-
-    return render_template('Bookings.html', events=events)
 
 @main_bp.route('/bookings')
 @login_required

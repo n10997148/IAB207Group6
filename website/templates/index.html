@@ -44,19 +44,23 @@
     <div class="container">
         <h1 class="text-center mb-5">Upcoming Music Events</h1>
         <div class="row">
-        
             {% if event %}
-            {% for event in event %}
-                <div class="card mx-3">
-                    <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" alt="{{ event.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.name }}</h5>
-                        <p class="card-text">{{ event.description }}</p>
+                {% for event in event %}
+                    <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                        <div class="card mx-3">
+                            <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" alt="{{ event.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.name }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                            </div>
+                            <a href="{{ url_for('main.show', id=event.id) }}" class="btn btn-primary">More details</a>
+                        </div>
                     </div>
-                    <a href="{{ url_for('main.show', id=event.id) }}" class="btn btn-primary">More details</a>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No events available.</p>
-        {% endif %}
-              {% endblock %}
+                {% endfor %}
+            {% else %}
+                <p>No events available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,16 +1,33 @@
 body{
     overflow-x:auto;
     font-family: 'Poppins';
-    padding-top: 70px;
+    margin: 0;
+    padding: 0;
+    text-align: left; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+.container{
+    max-width: 2000px; 
+    margin: 0 auto;
+    padding: 0 0px;
 }
 .navbar{
-    padding: 18px 14px;
+    padding: 20px 14px;
     font-size: 19px;
     background-color: #f8f9fa;
 }
 .navbar .brand-text{
     font-weight:bold;
     font-size: 24px;
+}
+.navbar .navbar-text{
+        position: absolute;
+        top: 50%;
+        right: 11%;
+        transform: translate(50%, -50%);
+        color:black;
+        font-weight: bold;
 }
 .navbar .nav-link{
     font-weight:bold;
@@ -125,7 +142,7 @@ body{
     position: relative;
     background: url('../img/Concertbg.jpg') no-repeat center center fixed;
     background-size: cover;
-    padding: 80px 0; 
+    padding: 80px 100px; 
 }
 
 .upcoming-events::before {
