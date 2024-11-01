@@ -3,54 +3,66 @@
 {% block content %}
 <section class= "eventCreate container mt-5 pt-3">
     <h1 class="text-center mb-4">Create New Event</h1>
-    <form class="row g-4" enctype="multipart/form-data">
+    <form method="POST" , action="{{ url_for('main.create_event') }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
         <div class="col-md-6">
-            <label for="eventTitle" class="form-label">Event Title</label>
-            <input type="text" class="form-control" id="eventTitle" placeholder="Enter event title" required>
+            <label for="eventName" class="form-label">Event Name</label>
+            {{ form.event_name(class="form-control", placeholder="Enter event name") }}
         </div>
         <div class="col-md-6">
             <label for="eventDate" class="form-label">Event Date</label>
-            <input type="date" class="form-control" id="eventDate" required>
+            {{ form.date(class="form-control", placeholder="Enter event date") }}
         </div>
         <div class="col-md-6">
             <label for="startTime" class="form-label">Start Time</label>
-            <input type="time" class="form-control" id="startTime" required>
+            {{ form.start_time(class="form-control", placeholder="Enter start time") }}
         </div>
         <div class="col-md-6">
             <label for="endTime" class="form-label">End Time</label>
-            <input type="time" class="form-control" id="endTime" required>
+            {{ form.end_time(class="form-control", placeholder="Enter end time") }}
         </div>
         <div class="col-md-12">
             <label for="eventVenue" class="form-label">Venue</label>
-            <input type="text" class="form-control" id="eventVenue" placeholder="Enter venue location" required>
+            {{ form.venue(class="form-control", placeholder="Enter venue location") }}
         </div>
         <div class="col-md-12">
             <label for="eventDescription" class="form-label">Event Description</label>
-            <textarea class="form-control" id="eventDescription" rows="5" placeholder="Enter event description" required></textarea>
+            {{ form.description(class="form-control", placeholder="Enter event description") }}
         </div>
         <div class="col-md-12">
             <label for="eventImage" class="form-label">Upload Event Image</label>
-            <input type="file" class="form-control" id="eventImage" required>
+            {{ form.event_image(class="form-control") }}
         </div>
         <div class="col-md-6">
             <label for="ticketType" class="form-label">Ticket Type</label>
-            <select class="form-select" id="ticketType" required>
-                <option value="general">General Admission</option>
-                <option value="vip">VIP</option>
-                <option value="earlybird">Early Bird</option>
-            </select>
+            {{ form.ticket_type(class="form-control", placeholder="ticket type") }}
+        </div>
+        <div class="col-md-6">
+            <label for="ticketType" class="form-label">Status</label>
+            {{ form.status(class="form-control", placeholder="Status") }}
         </div>
         <div class="col-md-6">
             <label for="ticketQuantity" class="form-label">Total Tickets</label>
-            <input type="number" class="form-control" id="ticketQuantity" min="1" max="10000" placeholder="Enter total number of tickets" required>
+
+            {{ form.total_tickets(class="form-control", placeholder="Enter total number of tickets") }}
         </div>
         <div class="col-md-4">
             <label for="ticketPrice" class="form-label">Ticket Price ($)</label>
-            <input type="number" class="form-control" id="ticketPrice" step="0.01" min="0" placeholder="Enter ticket price" required>
+            {{ form.ticket_price(class="form-control", placeholder="Enter Ticket Price") }}
         </div>
         <div class="col-12 text-center">
             <button type="submit" class="btn event-btn">Create Event</button>
         </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="alert alert-danger mt-3">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
     </form>
 </section>
 {% endblock %}

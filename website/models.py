@@ -14,14 +14,12 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), index=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     contact_number = db.Column(db.String(255), nullable=False)
-    street_address = db.Column(db.String(100), index=True, nullable=False)
-    events = db.relationship('Event', backref='creator', lazy=True)  # "creator" backref on Event
+    street_address = db.Column(db.String(100), index=True, nullable=False)  
     # Relationships
     comments = db.relationship('Comment', backref='user', lazy=True)
     orders = db.relationship('Order', backref='user', lazy=True)
     events = db.relationship('Event', backref='organizer', lazy=True)
-
-
+   
 # Event Class
 class Event(db.Model):
     __tablename__ = 'events'
@@ -34,7 +32,7 @@ class Event(db.Model):
         def __str__(self):
             return self.value
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.Date, nullable=False)
     start_time=db.Column(db.DateTime, nullable =False)
@@ -46,15 +44,16 @@ class Event(db.Model):
     status = db.Column(db.String(20), nullable=False)
     ticket_type=db.Column(db.String(20),nullable=False)
     total_ticket=db.Column(db.Integer, nullable =False)
+    datetime=db.Column(db.DateTime,)
 
     
 
     orders = db.relationship('Order', backref='event', lazy=True)
     comments = db.relationship('Comment', backref='event', lazy=True)
     def __repr__(self):
-        return f"Event\nName: {self.name}\nDateTime: {self.datetime}\nVenue: {self.venue}\nGenre: {self.genre}\nTicket Price: {self.ticket_price}\nCreator ID: {self.creator_id}"
+        return f"Event\nName: {self.name}\nDateTime: {self.datetime}\nVenue: {self.venue}\nTicket Price: {self.ticket_price}\nCreator ID: {self.creator_id}"
     # Foreign Key to reference User who organizes the event
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
     
     # Relationships
     comments = db.relationship('Comment', backref='event', lazy=True)
