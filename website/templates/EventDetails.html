@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/EventDetailStyle.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="event-details-section">
     <div class="container">

@@ -1,7 +1,11 @@
 body{
     overflow-x:auto;
     font-family: 'Poppins';
-    padding-top: 70px;
+    margin: 0;
+    padding: 0;
+    text-align: left; 
+    width: 100%; 
+    box-sizing: border-box; 
 }
 .container{
     flex: 1;
