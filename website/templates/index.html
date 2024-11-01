@@ -40,89 +40,23 @@
         </div>
     </div>
 </div>
-
 <div class="upcoming-events">
     <div class="container">
         <h1 class="text-center mb-5">Upcoming Music Events</h1>
         <div class="row">
-            <div class="col-md-4">
-                <div class="card event-card position-relative">
-                    <img src="{{ url_for('static', filename='img/Concert.jpg') }}" class="card-img-top event-image img-fluid" alt="event image">
+        
+            {% if event %}
+            {% for event in event %}
+                <div class="card mx-3">
+                    <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" alt="{{ event.name }}">
                     <div class="card-body">
-                        <h5 class="card-title">We Are One Festival 2024</h5>
-                        <p class="card-text">Join one of the most awaited festivals of 2024</p>
-                        <a href="{{ url_for('main.view_event', current_event_id=1) }}" class="btn btn-event">View Event</a>
-                        <span class="event-status status-open">Available</span>
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="card-text">{{ event.description }}</p>
                     </div>
+                    <a href="{{ url_for('main.show', id=event.id) }}" class="btn btn-primary">More details</a>
                 </div>
-            </div>
-           
-
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/Opera.jpg" class="card-img-top event-image img-fluid" alt="event image">
-                <div class="card-body">
-                  <h5 class="card-title">John Maroon Opera Night</h5>
-                  <p class="card-text">Experience a soothing opera night with John Maroon</p>
-                  <a href="#" class="btn btn-event">View Event</a>
-                  <span class="event-status status-sold-out">Sold Out</span>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/Robot.jpeg" class="card-img-top" alt="event image">
-                <div class="card-body">
-                  <h5 class="card-title">Astro Mech Concert</h5>
-                  <p class="card-text">Get ready for one of the most awaited artist coming to australia</p>
-                  <a href="#" class="btn btn-event">View Event</a>
-                  <span class="event-status status-cancelled">Cancelled</span>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event Image">
-                <div class="card-body">
-                  <h5 class="card-title">An Event</h5>
-                  <p class="card-text">Event Description</p>
-                  <a href="#" class="btn btn-event">View Event</a>
-                  <span class="event-status status-inactive">Inactive</span>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event image">
-                <div class="card-body">
-                  <h5 class="card-title">An Event</h5>
-                  <p class="card-text">Event Description</p>
-                  <a href="#" class="btn btn-event">View Event</a>
-                  <span class="event-status status-inactive">Inactive</span>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event image">
-                <div class="card-body">
-                  <h5 class="card-title">An Event</h5>
-                  <p class="card-text">Event Description</p>
-                  <a href="#" class="btn btn-event">View Event</a>
-                  <span class="event-status status-inactive">Inactive</span>
-                </div>
-              </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-{% endblock %}
+            {% endfor %}
+        {% else %}
+            <p>No events available.</p>
+        {% endif %}
+              {% endblock %}

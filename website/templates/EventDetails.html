@@ -42,8 +42,8 @@
                                     <div class="mb-3">
                                         <label for="ticketType" class="ticket-label">Ticket Type</label>
                                         <select class="form-select" id="ticketType" name="ticketType">
-                                            <option value="general">General Admission - ${{ event.price }}</option>
-                                            <option value="vip">VIP - ${{ event.price * 2 }}</option>
+                                            <option value="general">General Admission - ${{ event.ticket_price }}</option>
+                                            <option value="vip">VIP - ${{ event.ticket_price * 2 }}</option>
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Your Name</label>
                                                 <input type="text" class="form-control" id="name" placeholder="Enter your name" required>

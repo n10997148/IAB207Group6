@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for,flash,current_app
+from flask import Blueprint, render_template, request, redirect, url_for,flash,current_app,abort
 from flask_login import login_required, current_user
 from .models import User,Event,Order, db, Comment
 from .forms import CreateComment,UpdateEvents
@@ -11,6 +11,7 @@ main_bp = Blueprint('main', __name__, template_folder='templates', static_folder
 
 @main_bp.route('/')
 def index(): 
+    event= Event.query.all()
     event = db.session.scalars(db.select(Event)).all()
     return render_template('index.html', event=event)
 
@@ -20,13 +21,22 @@ def search():
         print(request.args['search'])
         query = "%" + request.args['search'] + "%"
         events = db.session.scalars(db.select(Event).where(db.or_(Event.name.ilike(query),
-                    Event.category.ilike(query),
                     Event.description.ilike(query))))
         return render_template('index.html', events=events)
     else:
         return redirect(url_for('main.index'))
 
 
+@main_bp.route('/show<id>')
+def show(id):
+    event = db.session.scalar(db.select(Event).where(Event.id==id))
+    # create the comment form
+    form = CreateComment()
+
+    # If the database doesn't return a destination, show a 404 page
+    if not event:
+       abort(404)
+    return render_template('EventDetails.html', event=event, form=form)
 @main_bp.route('/view_event/<current_event_id>')
 def view_event(current_event_id):
     current_event = db.session.scalar(db.select(Event).where(Event.id==current_event_id))
