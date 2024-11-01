@@ -4,15 +4,15 @@ from .models import Event,Order, db
 from .forms import CreateComment,UpdateEvents
 from werkzeug.utils import secure_filename
 import os
-from datetime import timedelta
+from datetime import timedelta,datetime
 
 main_bp = Blueprint('main', __name__, template_folder='templates', static_folder='Static')
 
 
 @main_bp.route('/')
 def index(): 
-    events = db.session.scalars(db.select(Event)).all()
-    return render_template('index.html', events=events)
+    event = db.session.scalars(db.select(Event)).all()
+    return render_template('index.html', event=event)
 
 @main_bp.route('/search')
 def search():
@@ -41,36 +41,50 @@ def comment():
 def create_event():
     form = UpdateEvents()
     
-    if form.validate_on_submit():  # If the form is submitted and valid
-        # Grab the creator_id from the currently logged-in user
-        creator_id = current_user.id  # get the user id from the session
+    if form.validate_on_submit():
+        try:
+            # Get creator_id from the logged-in user
+            creator_id = current_user.id
+            event_date = form.date.data
+            start_datetime = datetime.combine(event_date, form.start_time.data)
+            end_datetime = datetime.combine(event_date, form.end_time.data)
+            
+            # Handle image upload
+            image = form.event_image.data
+            filename = secure_filename(image.filename) if image else None
+            if filename:
+                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
-        image=form.event_image.data # save the image to the server 
-        print(type(image))
-        filename=secure_filename(image.filename)
-        image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            # Create the new event instance
+            new_event = Event(
+                title=form.event_name.data,
+                date=form.date.data,
+                start_time=start_datetime,
+                end_time=end_datetime,
+                venue=form.venue.data,
+                description=form.description.data,
+                ticket_price=form.ticket_price.data,
+                ticket_type=form.ticket_type.data,
+                total_ticket=form.total_tickets.data,
+                creator_id=creator_id,
+                status="OPEN",
+                image=filename,
+            )
 
-        
-        # Create the new event instance
-        new_event = Event(
-            name=form.event_name.data,
-            datetime=form.event_datetime.data,
-            venue=form.event_venue.data,
-            ticket_price=form.event_ticket_price.data,
-            genre=form.event_genre.data,
-            status="OPEN",
-            image=filename,
-            creator_id=creator_id
-        )
-        
-        # Add the event to the database
-        db.session.add(new_event)
-        db.session.commit()
-        
-        flash('Event created successfully!')
-        return redirect(url_for('main.index'))  # Redirect to a suitable page, like the homepage or event list
+            db.session.add(new_event)
+            db.session.commit()
+            flash('Event created successfully!')
+            return redirect(url_for('main.index'))
+
+        except Exception as e:
+            db.session.rollback()
+            print("Database commit error:", e)  # Print error if commit fails
+            flash('An error occurred while creating the event.')
+
+    else:
+        print("Form validation errors:", form.errors)  # Debugging validation issues
     
-    return render_template('UpdateEvents.html', form=form)  # Render the form template
+    return render_template('UpdateEvents.html', form=form)
 
 
 

@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     contact_number = db.Column(db.String(255), nullable=False)
     street_address = db.Column(db.String(100), index=True, nullable=False)
-    
+    events = db.relationship('Event', backref='creator', lazy=True)  # "creator" backref on Event
     # Relationships
     comments = db.relationship('Comment', backref='user', lazy=True)
     orders = db.relationship('Order', backref='user', lazy=True)
@@ -25,31 +25,37 @@ class User(db.Model, UserMixin):
 # Event Class
 class Event(db.Model):
     __tablename__ = 'events'
+    class Status(Enum):
+        OPEN = "Open"
+        SOLDOUT = "Sold Out"
+        CANCELLED = "Cancelled"
+        INACTIVE = "Inactive"
+
+        def __str__(self):
+            return self.value
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(1000), nullable=False)
-    location = db.Column(db.String(200), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    time = db.Column(db.Time, nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    image = db.Column(db.String(400))
-    capacity = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    street_address = db.Column(db.String(100), index=True, nullable=False)
-    status = db.Column(
-        Enum('open', 'inactive', 'sold out', 'cancelled', name='event_status'),
-        nullable=False,
-        default='open'
-    )
+    start_time=db.Column(db.DateTime, nullable =False)
+    end_time =db.Column(db.DateTime, nullable = False)
+    venue=db.Column(db.String(100), nullable=False)
+    ticket_price=db.Column(db.Integer, nullable = False)
+    image=db.Column(db.String(400))
+    creator_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    status = db.Column(db.String(20), nullable=False)
+    ticket_type=db.Column(db.String(20),nullable=False)
+    total_ticket=db.Column(db.Integer, nullable =False)
+
     
+
+    orders = db.relationship('Order', backref='event', lazy=True)
+    comments = db.relationship('Comment', backref='event', lazy=True)
+    def __repr__(self):
+        return f"Event\nName: {self.name}\nDateTime: {self.datetime}\nVenue: {self.venue}\nGenre: {self.genre}\nTicket Price: {self.ticket_price}\nCreator ID: {self.creator_id}"
 
     # Foreign Key to reference User who organizes the event
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
-    # Relationships
-    comments = db.relationship('Comment', backref='event', lazy=True)
-    orders = db.relationship('Order', backref='event', lazy=True)
-
 # Comment Class
 class Comment(db.Model):
     __tablename__ = 'comments'

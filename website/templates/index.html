@@ -6,16 +6,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 {% endblock %}
 
-<<<<<<< HEAD
-{% block content %}
-<section class="header-section">
-    <div class="container">
-        <h1>Explore your favourite music and live festivals</h1>
-        <button class="btn FindMusic-btn">Find Music Now</button>
-    </div>
-</section>
-=======
 <body>
+  {%block content%}
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-body fixed-top">
         <div class="container-fluid">
             <div class="navbar-brand">
@@ -151,7 +143,37 @@
                 </div>
               </div>
             </div>
->>>>>>> f6674bcd9798cf4a5dde7f0f38a91220ee065046
+
+            <div class="row">
+              {% for event in events %}
+              {% if loop.index0 % 3 == 0 and not loop.first %}
+          </div>
+          <div class="row mt-4">
+              {% endif %}
+
+              <div class="col-md-4">
+                  <div class="card card-event">
+                      <img src="{{ url_for('static', filename='event_images/' + event.image) }}"
+                          class="card-img-top fixed-height" alt="{{ event.name }}">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ event.title }}</h5>
+                          <p class="card-text">Location: {{ view.venue }}<br>Description: {{ view.Description }}<br>Status: {{
+                              event.status }}</p>
+                          {% if event.status == Event.Status.OPEN %}
+                          <a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-primary">View
+                              Details</a>
+                          {% elif event.status == Event.Status.SOLDOUT %}
+                          <a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-warning">Sold
+                              Out</a>
+                          {% elif event.status == Event.Status.CANCELLED %}
+                          <a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-danger">Cancelled</a>
+                          {% elif event.status == Event.Status.INACTIVE %}
+                          <a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-secondary">Inactive</a>
+                          {% endif %}
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
 
 <div class="categories">
     <div class="container text-center">

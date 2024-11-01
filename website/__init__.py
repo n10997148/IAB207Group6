@@ -4,7 +4,7 @@ from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from datetime import datetime
-
+import os
 db = SQLAlchemy()
 
 # create a function that creates a web application
@@ -17,6 +17,7 @@ def create_app():
     # set the app configuration data
    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sitedata.sqlite'
     # initialise db with flask app
+   app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path,'static/img')
    db.init_app(app)
 
    Bootstrap5(app)

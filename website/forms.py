@@ -18,14 +18,18 @@ from flask_wtf.file import FileRequired, FileField, FileAllowed
 ALLOWED_FILE = {'png', 'jpg', 'JPG', 'PNG', 'bmp'}
 
 class UpdateEvents(FlaskForm): # This form is for creating events
-    Start_time = TimeField("Start Time", validators=[InputRequired()])
+    event_name=StringField("Event Name", validators=[InputRequired()])
+    start_time = TimeField("Start Time", validators=[InputRequired()])
+    end_time = TimeField("End Time", validators=[InputRequired()])
     date = DateField("Event Date", validators=[InputRequired()])
-    Venue = StringField("Venue", validators=[InputRequired()])
-    Category = StringField("User Name", validators=[InputRequired()])
-    Tickets_avaliable = IntegerField("Tickets avaliable", validators=[InputRequired()])
-    status = StringField("User Name", validators=[InputRequired()])
-    
-    event_image=FileField("Image", validators=[DataRequired(), FileAllowed(['jpg'], '.jpg only!')])
+    venue = StringField("Venue", validators=[InputRequired()])
+    description = StringField("Event Description", validators=[InputRequired()])
+    total_tickets = IntegerField("Tickets avaliable", validators=[InputRequired()])
+    ticket_type = SelectField("Ticket Type",choices=[("general", "General Admission"), ("vip", "VIP"), ("earlybird", "Early Bird")],validators=[InputRequired()],
+    )
+    status=SelectField("Select Field",choices=[("open","Open Status"),("sold out", "Sold out Status"),("cancelled","Cancelled Status"),("inactive","Inactive Status")])
+    ticket_price=IntegerField("Ticket Price", validators=[InputRequired()])
+    event_image=FileField("Image", validators=[DataRequired(), FileAllowed(ALLOWED_FILE, '.jpg & jpeg only!')])
     create_event=SubmitField("Create Event")
     
 class CreateUser(FlaskForm):
