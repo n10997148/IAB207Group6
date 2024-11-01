@@ -5,7 +5,6 @@
 {% block content %}
 <section class="booking-history container mt-5">
     <h1 class="text-center mb-4">Your Booking History</h1>
-    <img src="{{ url_for('static', filename='img/' ) }}" class="card-img-top">
     <div class="row">
         {% if orders %}
             {% for order in orders %}
@@ -13,7 +12,6 @@
                         <div class="col-md-8">
                             <p><strong>Booking ID:</strong> {{ order.order_id }}</p>
                             <p><strong>Quantity:</strong> {{ order.quantity }}</p>
-                            <p><strong>Total Price:</strong> ${{ order.price }}</p>
             
                     </div>
                 </div>
