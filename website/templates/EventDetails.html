@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/EventDetailStyle.css') }}">
+{% endblock %}
 {% block content %}
 <div class="event-details-section">
     <div class="container">
@@ -22,48 +24,24 @@
                 <br>
                 <br>
                 <br>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
-                    Book Now
-                </button>
-
-                <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="ModalLabel">Book Tickets</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="booking-form">
-                                    <div class="mb-3">
-                                        <label for="ticketQuantity" class="ticket-label">Number of Tickets</label>
-                                        <input type="number" class="form-control" id="ticketQuantity" name="ticketQuantity" min="1" max="10" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="ticketType" class="ticket-label">Ticket Type</label>
-                                        <select class="form-select" id="ticketType" name="ticketType">
-                                            <option value="general">General Admission - ${{ form.ticket_type }}</option>
-                                            <option value="vip">VIP - ${{ form.ticket_type  }}</option>
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label">Your Name</label>
-                                                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
-                                        
-                                            </div>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-book">Book Now</button>
-                            </div>
+                {% if current_user.is_authenticated %}
+                <div class="container mt-5">
+                    <h2>Book Tickets</h2>
+                    <form method="POST" action="{{ url_for('main.show', id=event.id) }}">
+                        {{ oform.hidden_tag() }}
+                        <div class="mb-3">
+                            <label for="total_tickets" class="form-label">total_tickets</label>
+                            {{ oform.total_tickets(class="form-select") }}
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="ticketQuantity" class="form-label">Quantity</label>
+                            {{ oform.ticket_type(class="form-control") }}
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-5">Confirm Booking</button>
+                    </form>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                {% endif %}
+
 
 {% from 'bootstrap5/form.html' import render_form %}
 

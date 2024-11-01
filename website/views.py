@@ -27,23 +27,48 @@ def search():
         return redirect(url_for('main.index'))
 
 
-@main_bp.route('/show<id>')
+@main_bp.route('/show/<int:id>', methods=['GET', 'POST'])
 def show(id):
-    event = db.session.scalar(db.select(Event).where(Event.id==id))
-    # create the comment form
-    form = CreateComment()
-    
+    # Fetch the event using the provided ID
+    event = db.session.scalar(db.select(Event).where(Event.id == id))
 
-    # If the database doesn't return a destination, show a 404 page
-    if not event:
-       abort(404)
-    return render_template('EventDetails.html', event=event, form=form,)
-@main_bp.route('/view_event/<current_event_id>')
-def view_event(current_event_id):
-    current_event = db.session.scalar(db.select(Event).where(Event.id==current_event_id))
-    print(current_event_id, current_event.name)
-    cForm = CreateComment()
-    return render_template('EventDetails.html', event=current_event, form=cForm)
+    # Retrieve comments only for this event
+    comments = db.session.scalars(db.select(Comment).where(Comment.event_id == id)).all()
+
+    # Initialize the comment and booking forms
+    cform = CreateComment()
+    oform = OrderForm()
+
+
+    if cform.validate_on_submit():
+        # Process the comment form
+        user_id = current_user.id
+        new_comment = Comment(
+            text=cform.comment_text.data,
+            created_at=datetime.now(),
+            user_id=user_id,
+            event_id=event.id 
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        flash("Comment added successfully!", "success")
+        return redirect(url_for('event.show', id=event.id))
+
+    if oform.validate_on_submit():
+        # Process the booking form
+        user_id = current_user.id
+        ticket_type = request.form.get('total_tickets')
+        new_order = Order(
+            quantity=oform.total_tickets.data,
+            type=ticket_type,
+            user_id=user_id,
+            event_id=event.id
+        )
+        db.session.add(new_order)
+        db.session.commit()
+        flash("Order placed successfully!", "success")
+        return redirect(url_for('main.show', id=event.id))
+    return render_template('EventDetails.html', event=event, comments=comments, form=cform, oform=oform)
 
 @main_bp.route('/view_event/<event_id>/comment', methods=['GET', 'POST'])
 def comment(event_id):
@@ -63,7 +88,7 @@ def comment(event_id):
         # flash('Your comment has been added', 'success')  
         print('Your comment has been added', 'success')
     # using redirect sends a GET request to view_event
-    return redirect(url_for('main.view_event', current_event_id = event_id))
+    return redirect(url_for('main.show', id = event_id))
 
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required
