@@ -15,8 +15,8 @@
                 </p>
                 <p class="event-details">
                     <strong>Date:</strong> {{ event.date }} <br>
-                    <strong>Time:</strong> {{ event.time }} <br>
-                    <strong>Venue:</strong> {{ event.location }}
+                    <strong>Time:</strong> {{ event.start_time }} - {{ event.end_time }} <br>
+                    <strong>Venue:</strong> {{ event.venue }}
                 </p>
                 <span class="event-status status-open">Available</span>
                 <br>
@@ -42,8 +42,8 @@
                                     <div class="mb-3">
                                         <label for="ticketType" class="ticket-label">Ticket Type</label>
                                         <select class="form-select" id="ticketType" name="ticketType">
-                                            <option value="general">General Admission - ${{ event.price }}</option>
-                                            <option value="vip">VIP - ${{ event.price * 2 }}</option>
+                                            <option value="general">General Admission - ${{ event.ticket_price }}</option>
+                                            <option value="vip">VIP - ${{ event.ticket_price * 2 }}</option>
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Your Name</label>
                                                 <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
@@ -72,22 +72,23 @@
     </div>
 </div>
 
+{% from 'bootstrap5/form.html' import render_form %}
+
 <div class="comments-section container mt-4">
     <h2>Comments</h2>
     <div class="comment-list">
-        <div class="comment mb-2">
-            <p><strong>Sam871:</strong> Can't wait for this event, it's going to be amazing!</p>
-        </div>
-        <div class="comment mb-2">
-            <p><strong>JackyBoi :</strong> I attended last year's Rock Fest, and it was incredible! Already booked my tickets.</p>
-        </div>
+        {% for comment in event.comments %}
+            <div class="comment mb-2">
+                <p><strong>{{ comment.user.username }}:</strong> {{ comment.comment }} </p>
+                <p><span class="small">Posted on: {{ comment.date_posted }}</span></p>
+            </div>
+        {% endfor %}
     </div>
     <h3>Post a Comment</h3>
-    <form class="comment-form">
-        <div class="mb-3">
-            <textarea class="form-control" placeholder="Enter Comment"id="commentText" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit Comment</button>
-    </form>
+    {% if current_user.is_authenticated %}
+        {{render_form(form,"/view_event/{0}/comment".format(event.id))}}
+    {% else %}
+        <p>You must be logged in to comment</p>
+    {% endif %}
 </div>
 {% endblock %}

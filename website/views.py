@@ -50,7 +50,7 @@ def comment(event_id):
 
         # flashing a message which needs to be handled by the html
         # flash('Your comment has been added', 'success')  
-        print('Your comment has been added', 'success') 
+        print('Your comment has been added', 'success')
     # using redirect sends a GET request to view_event
     return redirect(url_for('main.view_event', current_event_id = event_id))
 
