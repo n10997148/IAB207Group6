@@ -1,11 +1,32 @@
 {% extends "base.html" %}
 
-{% block head %}
-    <title>Polar Music Events</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/Indexstyle.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-{% endblock %}
+{% block title %}Home | Polar Music Events{% endblock %}
 
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/Indexstyle.css') }}">
+<section class="header-section">
+    <div class="container">
+        <h1>Explore your favourite music and live festivals</h1>
+        <button class="btn FindMusic-btn">Find Music Now</button>
+    </div>
+</section>
+<div class="categories">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-5">
+                <a href="#" class="category-link">
+                    <div class="category-item">
+                        <img src="{{ url_for('static', filename='img/ConcertIcon.jpg') }}" alt="Concert" class="category-icon">
+                        <p>Concerts</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-5">
+                <a href="#" class="category-link">
+                    <div class="category-item">
+                        <img src="{{ url_for('static', filename='img/FestivalIcon.png') }}" alt="Festival" class="category-icon">
+                        <p>Festivals</p>
+                    </div>
 <body>
   {%block content%}
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-body fixed-top">
@@ -76,36 +97,36 @@
                       <p>Festivals</p>
                   </div>
                 </a>
-              </div>
-              <div class="col-md-4 col-5">
-                <a href="" class="category-link">
-                  <div class="category-item">
-                      <img src="Static/img/MusicalIcon.png" alt="StagePerformance" class="category-icon">
-                      <p>Musicals</p>
-                  </div>
-                </a>
-              </div>
-          </div>
-      </div>
-    </div>
-    <div class="upcoming-events">
-      <div class="container">
-          <h1 class="text-center mb-5">Upcoming Music Events</h1>
-          <div class="row">
-            
-            <div class="col-md-4">
-              <div class="card event-card position-relative">
-                <img src="Static/img/Concert.jpg" class="card-img-top event-image img-fluid" alt="event image">
-                <div class="card-body">
-                  <h5 class="card-title">We Are One Festival 2024</h5>
-                  <p class="card-text">Join one of the most awaited festivals of 2024</p>
-                  <a href="{{ url_for('main.view_event' , current_event_id=1) }}" class="btn btn-event">View Event</a> <!--  -->
-                  <span class="event-status status-open">Available</span>
-                </div>
-              </div>
             </div>
-      
-         
+            <div class="col-md-4 col-5">
+                <a href="#" class="category-link">
+                    <div class="category-item">
+                        <img src="{{ url_for('static', filename='img/MusicalIcon.png') }}" alt="Musicals" class="category-icon">
+                        <p>Musicals</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="upcoming-events">
+    <div class="container">
+        <h1 class="text-center mb-5">Upcoming Music Events</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card event-card position-relative">
+                    <img src="{{ url_for('static', filename='img/Concert.jpg') }}" class="card-img-top event-image img-fluid" alt="event image">
+                    <div class="card-body">
+                        <h5 class="card-title">We Are One Festival 2024</h5>
+                        <p class="card-text">Join one of the most awaited festivals of 2024</p>
+                        <a href="{{ url_for('main.view_event', current_event_id=1) }}" class="btn btn-event">View Event</a>
+                        <span class="event-status status-open">Available</span>
+                    </div>
+                </div>
+            </div>
+           
+
             <div class="col-md-4">
               <div class="card event-card position-relative">
                 <img src="Static/img/Opera.jpg" class="card-img-top event-image img-fluid" alt="event image">
@@ -117,8 +138,8 @@
                 </div>
               </div>
             </div>
-      
-           
+
+
             <div class="col-md-4">
               <div class="card event-card position-relative">
                 <img src="Static/img/Robot.jpeg" class="card-img-top" alt="event image">
@@ -130,8 +151,8 @@
                 </div>
               </div>
             </div>
-      
-           
+
+
             <div class="col-md-4">
               <div class="card event-card position-relative">
                 <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event Image">
@@ -143,6 +164,18 @@
                 </div>
               </div>
             </div>
+
+
+            <div class="col-md-4">
+              <div class="card event-card position-relative">
+                <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event image">
+                <div class="card-body">
+                  <h5 class="card-title">An Event</h5>
+                  <p class="card-text">Event Description</p>
+                  <a href="#" class="btn btn-event">View Event</a>
+                  <span class="event-status status-inactive">Inactive</span>
+                </div>
+              </div>
 
             <div class="row">
               {% for event in events %}
@@ -194,23 +227,20 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-4 col-5">
-                <a href="" class="category-link">
-                    <div class="category-item">
-                        <img src="Static/img/MusicalIcon.png" alt="StagePerformance" class="category-icon">
-                        <p>Musicals</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="upcoming-events">
-    <div class="container">
-        <h1 class="text-center mb-5">Upcoming Music Events</h1>
-        <div class="row">
-            <!-- Event cards as in the original file -->
+
+            <div class="col-md-4">
+              <div class="card event-card position-relative">
+                <img src="Static/img/placeholder-image.jpg" class="card-img-top" alt="event image">
+                <div class="card-body">
+                  <h5 class="card-title">An Event</h5>
+                  <p class="card-text">Event Description</p>
+                  <a href="#" class="btn btn-event">View Event</a>
+                  <span class="event-status status-inactive">Inactive</span>
+                </div>
+              </div>
+            </div>
+
         </div>
     </div>
 </div>

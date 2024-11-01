@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style/loginStyle.css') }}">
 {% endblock %}
 
+{% block navbar %}
+<!-- Override navbar to hide it on the login page -->
+{% endblock %}
+
 {% block content %}
 <div class="header-banner">
     <p>Welcome to Polar Music Events</p>

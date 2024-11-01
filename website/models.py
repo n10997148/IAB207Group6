@@ -53,8 +53,14 @@ class Event(db.Model):
     comments = db.relationship('Comment', backref='event', lazy=True)
     def __repr__(self):
         return f"Event\nName: {self.name}\nDateTime: {self.datetime}\nVenue: {self.venue}\nGenre: {self.genre}\nTicket Price: {self.ticket_price}\nCreator ID: {self.creator_id}"
-
     # Foreign Key to reference User who organizes the event
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    # Relationships
+    comments = db.relationship('Comment', backref='event', lazy=True)
+    orders = db.relationship('Order', backref='event', lazy=True)
+    
+
     
 # Comment Class
 class Comment(db.Model):

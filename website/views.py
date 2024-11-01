@@ -19,7 +19,9 @@ def search():
     if request.args['search'] and request.args['search'] != "":
         print(request.args['search'])
         query = "%" + request.args['search'] + "%"
-        events = db.session.scalars(db.select(Event).where(Event.description.like(query)))
+        events = db.session.scalars(db.select(Event).where(db.or_(Event.name.ilike(query),
+                    Event.category.ilike(query),
+                    Event.description.ilike(query))))
         return render_template('index.html', events=events)
     else:
         return redirect(url_for('main.index'))
@@ -32,25 +34,10 @@ def view_event(current_event_id):
     cForm = CreateComment()
     return render_template('EventDetails.html', event=current_event, form=cForm)
 
-@main_bp.route('/view_event/<event_id>/comment', methods=['GET', 'POST'])
-def comment(event_id):
-    form = CreateComment()  
-    # get the event object associated to the page and the comment
-    event = db.session.scalar(db.select(Event).where(Event.id==event_id))  
-    if form.validate_on_submit():
-      if current_user:
-        # read the comment from the form
-        comment = Comment(comment=form.comment.data, event=event, user=current_user) 
-        # here the back-referencing works - comment.event is set
-        # and the link is created
-        db.session.add(comment) 
-        db.session.commit() 
-
-        # flashing a message which needs to be handled by the html
-        # flash('Your comment has been added', 'success')  
-        print('Your comment has been added', 'success') 
-    # using redirect sends a GET request to view_event
-    return redirect(url_for('main.view_event', current_event_id = event_id))
+@main_bp.route('/view_event/<current_event_id>/comment', methods=['GET', 'POST'])
+def comment(current_event_id):
+    # Implement comment functionality here
+    pass
 
 @main_bp.route('/create_event', methods=['GET', 'POST'])
 @login_required
@@ -124,10 +111,10 @@ def order():
 
     return render_template('Bookings.html', events=events)
 
-@main_bp.route('/bookings', methods=['GET'])
+@main_bp.route('/bookings')
 @login_required
 def bookings():
-    user_bookings = Order.query.filter_by(user_id=current_user.id).all()  # Retrieve bookings for the current user
-    return render_template('Bookings.html', bookings=user_bookings)
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    return render_template('Bookings.html', orders=orders)
 
 print("main_bp is defined in views.py")
